@@ -1,0 +1,12 @@
+name: booking-order-app
+services:
+  user-service: 
+    container_name: user-service 
+    # image: rizkysamp/bwa-soccer-user-service:1 # use this if already using jenkins
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    env_file:
+      - .env
