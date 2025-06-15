@@ -1,5 +1,7 @@
 // Jenkins Pipeline untuk CI/CD User Service
 // Pipeline ini akan melakukan build, test, dan deploy aplikasi secara otomatis
+// Stage 1-5 -> Proses CI (Continues Integration)
+// Stage 6-8 -> Proses CD (Continues Delivery/Deployment)
 pipeline {
   // Menjalankan pipeline di agent manapun yang tersedia
   agent any
@@ -60,7 +62,7 @@ pipeline {
       }
     }
 
-    // Stage 3: Checkout kode dari repository GitHub
+    // Stage 3: Checkout kode dari repository GitHub (Mengambil/Pull source code ke Jenkins untuk di-build, test, dan deploy)
     stage('Checkout Code') {
       steps {
         script {
@@ -137,7 +139,7 @@ pipeline {
           sh """
           git config --global user.name 'Jenkins CI'
           git config --global user.email 'jenkins@company.com'
-          git remote set-url origin https://${GITHUB_CREDENTIALS_USR}:${GITHUB_CREDENTIALS_PSW}@github.com/Mini-Soccer-Project/user-service.git
+          git remote set-url origin https://${GITHUB_CREDENTIALS_USR}:${GITHUB_CREDENTIALS_PSW}@github.com/rizama/booking-soccer-user-service.git
           git add docker-compose.yml
           git commit -m 'Update image version to ${TARGET_BRANCH}-${currentBuild.number} [skip ci]' || echo 'No changes to commit'
           git pull origin ${TARGET_BRANCH} --rebase
@@ -173,7 +175,7 @@ pipeline {
                 git pull origin "${TARGET_BRANCH}"
             else
                 echo "Directory does not exist. Cloning repository."
-                git clone -b "${TARGET_BRANCH}" git@github.com:Mini-Soccer-Project/user-service.git "${targetDir}"
+                git clone -b "${TARGET_BRANCH}" git@github.com:rizama/booking-soccer-user-service.git "${targetDir}"
                 cd "${targetDir}"
             fi
 
